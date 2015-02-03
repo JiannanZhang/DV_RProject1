@@ -42,7 +42,7 @@ the customers and their associated order id number.
 source("../Data/df_orders.R", echo = TRUE)
 head(df_orders)
 # plot2 for df_orders
-ggplot(df_orders, aes(x = CUSTOMER_ID, y = ORDER_ID, color = CUSTOMER_ID)) + geom_point()
+ggplot(df_orders, aes(x = CUSTOMER_ID, y = ORDER_ID, color = as.factor(CUSTOMER_ID)) + geom_point()
 ```
 
 Below shows a sample of the data set "df_ord_detail" and a ggplot representing the item number and the order quantity. Each point represents one order, where the y-axis showcases the quatitiy per order.
