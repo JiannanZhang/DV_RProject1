@@ -36,7 +36,7 @@ ggplot (data = df_cust) + geom_histogram(aes(x = CUSTOMER_STATE))
 ```
 
 Below shows a sample of the data set "df_orders" and a ggplot representing
-the customers and the state in which they reside in.
+the customers and their associated order id number.
 ```{r}
 # data frame #2 (df2)
 df_orders <- data.frame(eval(parse(text=substring(getURL(URLencode('http://129.152.144.84:5001/rest/native/?query="select * from orders"'), httpheader=c(DB='jdbc:oracle:thin:@129.152.144.84:1521/PDB1.usuniversi01134.oraclecloud.internal', USER='DV_ORDERS', PASS='orcl', MODE='native_mode', MODEL='model', returnFor = 'R', returnDimensions = 'False'), verbose = TRUE), 1, 2^31-1))))
