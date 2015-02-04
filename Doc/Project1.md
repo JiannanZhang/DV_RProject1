@@ -6,26 +6,31 @@ Students: Jiannan Zhang & Jaclyn Nguyen
 
 ========================================================
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring web pages (click the **Help** toolbar button for more details on using R Markdown).
+This project required us to pull data from a RestfulReL server and explore the data. Below shows the step by step process of exploring and reproducing the required visualization for Project1 Requirements.
 
-When you click the **Knit HTML** button a web page will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+__1. Loading of necessary R packages: RCurl, ggplot2 (R code not shown)__
+
+
+
+__2. Creation of data frames for each data set: "df_cust","df_orders", "df_ord_details", "df_items"__
+
+
+```r
+# data frame #1 (df1)
+source("../Data/df_cust.R", echo = TRUE)
+```
+
+```
+## 
+## > df_cust <- data.frame(eval(parse(text = substring(getURL(URLencode("http://129.152.144.84:5001/rest/native/?query=\"select * from customers\""), 
+## +  .... [TRUNCATED]
+```
+Below shows a sample of the data set "df_cust" and a ggplot representing
+the customers and the state in which they reside in.
 
 
 ```r
-library(RCurl)
-```
-
-```
-## Loading required package: bitops
-```
-
-```r
-library (ggplot2)
-```
-
-```r
-# df1
-df_cust <- data.frame(eval(parse(text=substring(getURL(URLencode('http://129.152.144.84:5001/rest/native/?query="select * from customers"'), httpheader=c(DB='jdbc:oracle:thin:@129.152.144.84:1521/PDB1.usuniversi01134.oraclecloud.internal', USER='DV_ORDERS', PASS='orcl', MODE='native_mode', MODEL='model', returnFor = 'R', returnDimensions = 'False'), verbose = TRUE), 1, 2^31-1))))
 head(df_cust)
 ```
 
@@ -47,21 +52,45 @@ head(df_cust)
 ```
 
 ```r
-# plot1 for df_cust
-ggplot (df_cust, aes(x = CUSTOMER_STATE, y = CUSTOMER_LAST_NAME)) + geom_point()
+# plot1 part A for df_cust
+source("../Visualizations/plot1pta.R", echo = TRUE)
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
-
-```r
-ggplot (data = df_cust) + geom_histogram(aes(x = CUSTOMER_STATE))
+```
+## 
+## > ggplot(df_cust, aes(x = CUSTOMER_STATE, y = CUSTOMER_LAST_NAME)) + 
+## +     geom_point()
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-2.png) 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
 
 ```r
-#df2
-df_orders <- data.frame(eval(parse(text=substring(getURL(URLencode('http://129.152.144.84:5001/rest/native/?query="select * from orders"'), httpheader=c(DB='jdbc:oracle:thin:@129.152.144.84:1521/PDB1.usuniversi01134.oraclecloud.internal', USER='DV_ORDERS', PASS='orcl', MODE='native_mode', MODEL='model', returnFor = 'R', returnDimensions = 'False'), verbose = TRUE), 1, 2^31-1))))
+#plot1 part B recreates visual above, but using a histogram instead to repsent the data
+source("../Visualizations/plot1ptb.R", echo = TRUE)
+```
+
+```
+## 
+## > ggplot(data = df_cust) + geom_histogram(aes(x = CUSTOMER_STATE))
+```
+
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-2.png) 
+
+Below shows a sample of the data set "df_orders" and a ggplot representing
+the customers and their associated order id number.
+
+```r
+# data frame #2 (df2)
+source("../Data/df_orders.R", echo = TRUE)
+```
+
+```
+## 
+## > df_orders <- data.frame(eval(parse(text = substring(getURL(URLencode("http://129.152.144.84:5001/rest/native/?query=\"select * from orders\""), 
+## +   .... [TRUNCATED]
+```
+
+```r
 head(df_orders)
 ```
 
@@ -77,90 +106,120 @@ head(df_orders)
 
 ```r
 # plot2 for df_orders
-ggplot(df_orders, aes(x = CUSTOMER_ID, y = ORDER_ID, color = CUSTOMER_ID)) + geom_point()
+source("../Visualizations/plot2.R", echo = TRUE)
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-3.png) 
+```
+## 
+## > ggplot(df_orders, aes(x = CUSTOMER_ID, y = ORDER_ID, 
+## +     color = as.factor(CUSTOMER_ID))) + geom_point()
+```
+
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
+
+Below shows a sample of the data set "df_ord_detail" and a ggplot representing the item number and the order quantity. Each point represents one order, where the y-axis showcases the quatitiy per order.
 
 ```r
-#df3
-df_ord_details <- data.frame(eval(parse(text=substring(getURL(URLencode('http://129.152.144.84:5001/rest/native/?query="select * from order_details"'), httpheader=c(DB='jdbc:oracle:thin:@129.152.144.84:1521/PDB1.usuniversi01134.oraclecloud.internal', USER='DV_ORDERS', PASS='orcl', MODE='native_mode', MODEL='model', returnFor = 'R', returnDimensions = 'False'), verbose = TRUE), 1, 2^31-1))))
+# data frame #3 (df3)
+source("../Data/df_ord_details.R", echo = TRUE)
+```
 
+```
+## 
+## > df_ord_details <- data.frame(eval(parse(text = substring(getURL(URLencode("http://129.152.144.84:5001/rest/native/?query=\"select * from order_detai .... [TRUNCATED]
+```
+
+```r
 #plot3
-ggplot(df_ord_details, aes(x = ITEM_ID, y = ORDER_QTY)) + geom_point() + scale_x_discrete(breaks=df_ord_details$ITEM_ID)
+source("../Visualizations/plot3.R", echo = TRUE)
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-4.png) 
+```
+## 
+## > ggplot(df_ord_details, aes(x = ITEM_ID, y = ORDER_QTY)) + 
+## +     geom_point() + scale_x_discrete(breaks = df_ord_details$ITEM_ID)
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
+
+Below shows a sample of the data set "df_items" and a ggplot representing
+the item number, pricing, and artist association.
 
 ```r
-#hist(df_ord_details$ITEM_ID)
+# Data Frame #4 (df4)
+source("../Data/df_items.R", echo = TRUE)
+```
 
-#df4
-df_items <- data.frame(eval(parse(text=substring(getURL(URLencode('http://129.152.144.84:5001/rest/native/?query="select * from items"'), httpheader=c(DB='jdbc:oracle:thin:@129.152.144.84:1521/PDB1.usuniversi01134.oraclecloud.internal', USER='DV_ORDERS', PASS='orcl', MODE='native_mode', MODEL='model', returnFor = 'R', returnDimensions = 'False'), verbose = TRUE), 1, 2^31-1))))
+```
+## 
+## > df_items <- data.frame(eval(parse(text = substring(getURL(URLencode("http://129.152.144.84:5001/rest/native/?query=\"select * from items\""), 
+## +     .... [TRUNCATED]
+```
 
+```r
 #plot4
-ggplot(df_items, aes(x = ITEM_ID, y = UNIT_PRICE, color = ARTIST)) + geom_point() + scale_x_discrete(breaks = df_items$ITEM_ID)
+source("../Visualizations/plot4.R", echo = TRUE)
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-5.png) 
+```
+## 
+## > ggplot(df_items, aes(x = ITEM_ID, y = UNIT_PRICE, 
+## +     color = ARTIST)) + geom_point() + scale_x_discrete(breaks = df_items$ITEM_ID)
+```
+
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png) 
+
+__3. The next R code merges the four data frames into one data frame that allows us to reproduce the visuals from Project 1 Requirements__
 
 ```r
-df_main <- df <- data.frame(eval(parse(text=substring(getURL(URLencode('http://129.152.144.84:5001/rest/native/?query="select * from orders o join customers c on o.customer_id = c.customer_id join order_details d on o.order_id = d.order_id join items i on d.item_id = i.item_id"'), httpheader=c(DB='jdbc:oracle:thin:@129.152.144.84:1521/PDB1.usuniversi01134.oraclecloud.internal', USER='DV_ORDERS', PASS='orcl', MODE='native_mode', MODEL='model', returnFor = 'R', returnDimensions = 'False'), verbose = TRUE), 1, 2^31-1))))
-
-# plot1 based on UP
-ggplot(df_main, aes(x = as.Date(ORDER_DATE,"%Y-%m-%d"), y = as.Date(SHIPPED_DATE,"%Y-%m-%d"), color = as.factor(UNIT_PRICE)) ) + geom_point() + facet_wrap(~CUSTOMER_STATE)
+source("../Data/df_main.R", echo = TRUE)
 ```
 
 ```
-## Warning: Removed 4 rows containing missing values (geom_point).
+## 
+## > df_main <- df <- data.frame(eval(parse(text = substring(getURL(URLencode("http://129.152.144.84:5001/rest/native/?query=\"select * from orders o joi .... [TRUNCATED]
+```
+
+```r
+# plot1 based on Unit Price
+source("../Visualizations/plot1up.R", echo = TRUE)
 ```
 
 ```
-## Warning: Removed 1 rows containing missing values (geom_point).
+## 
+## > ggplot(df_main, aes(x = as.Date(ORDER_DATE, "%Y-%m-%d"), 
+## +     y = as.Date(SHIPPED_DATE, "%Y-%m-%d"), color = as.factor(UNIT_PRICE))) + 
+## +     geom .... [TRUNCATED]
 ```
 
-```
-## Warning: Removed 2 rows containing missing values (geom_point).
-```
-
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-6.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
 
 ```r
 # plot2 based on TITLE
-ggplot(df_main, aes(x = as.Date(ORDER_DATE,"%Y-%m-%d"), y = as.Date(SHIPPED_DATE,"%Y-%m-%d"), color = as.factor(TITLE)) ) + geom_point() + facet_wrap(~CUSTOMER_STATE)
+source("../Visualizations/plot1title.R", echo = TRUE)
 ```
 
 ```
-## Warning: Removed 4 rows containing missing values (geom_point).
+## 
+## > ggplot(df_main, aes(x = as.Date(ORDER_DATE, "%Y-%m-%d"), 
+## +     y = as.Date(SHIPPED_DATE, "%Y-%m-%d"), color = as.factor(TITLE))) + 
+## +     geom_poin .... [TRUNCATED]
 ```
 
-```
-## Warning: Removed 1 rows containing missing values (geom_point).
-```
-
-```
-## Warning: Removed 2 rows containing missing values (geom_point).
-```
-
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-7.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-2.png) 
 
 ```r
 # plot3 based on ARTIST
-ggplot(df_main, aes(x = as.Date(ORDER_DATE,"%Y-%m-%d"), y = as.Date(SHIPPED_DATE,"%Y-%m-%d"), color = as.factor(ARTIST)) ) + geom_point() + facet_wrap(~CUSTOMER_STATE)
+source("../Visualizations/plot1artist.R", echo = TRUE)
 ```
 
 ```
-## Warning: Removed 4 rows containing missing values (geom_point).
+## 
+## > ggplot(df_main, aes(x = as.Date(ORDER_DATE, "%Y-%m-%d"), 
+## +     y = as.Date(SHIPPED_DATE, "%Y-%m-%d"), color = as.factor(ARTIST))) + 
+## +     geom_poi .... [TRUNCATED]
 ```
 
-```
-## Warning: Removed 1 rows containing missing values (geom_point).
-```
-
-```
-## Warning: Removed 2 rows containing missing values (geom_point).
-```
-
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-8.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-3.png) 
 
 
