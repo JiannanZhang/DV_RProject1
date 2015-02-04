@@ -6,7 +6,7 @@ Students: Jiannan Zhang & Jaclyn Nguyen
 
 ========================================================
 
-This project required us to pull data from a RestfulReL server and explore the data.Below shows the step by step process of exploring and reproducing the required visualization for Project1 Requirements.
+This project required us to pull data from a RestfulReL server and explore the data. Below shows the step by step process of exploring and reproducing the required visualization for Project1 Requirements.
 
 
 __1. Loading of necessary R packages: RCurl, ggplot2 (R code not shown)__
