@@ -1,0 +1,1 @@
+ggplot(df_ord_details, aes(x = ITEM_ID, y = ORDER_QTY)) + geom_point() + scale_x_discrete(breaks=df_ord_details$ITEM_ID)

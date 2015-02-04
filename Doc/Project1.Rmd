@@ -29,10 +29,10 @@ the customers and the state in which they reside in.
 head(df_cust)
 
 # plot1 part A for df_cust
-ggplot (df_cust, aes(x = CUSTOMER_STATE, y = CUSTOMER_LAST_NAME)) + geom_point()
+source("../Visualizations/plot1pta.R", echo = TRUE)
 
 #plot1 part B recreates visual above, but using a histogram instead to repsent the data
-ggplot (data = df_cust) + geom_histogram(aes(x = CUSTOMER_STATE))
+source("../Visualizations/plot1ptb.R", echo = TRUE)
 ```
 
 Below shows a sample of the data set "df_orders" and a ggplot representing
@@ -42,7 +42,7 @@ the customers and their associated order id number.
 source("../Data/df_orders.R", echo = TRUE)
 head(df_orders)
 # plot2 for df_orders
-ggplot(df_orders, aes(x = CUSTOMER_ID, y = ORDER_ID, color = as.factor(CUSTOMER_ID))) + geom_point()
+source("../Visualizations/plot2.R", echo = TRUE)
 ```
 
 Below shows a sample of the data set "df_ord_detail" and a ggplot representing the item number and the order quantity. Each point represents one order, where the y-axis showcases the quatitiy per order.
@@ -51,8 +51,8 @@ Below shows a sample of the data set "df_ord_detail" and a ggplot representing t
 source("../Data/df_ord_details.R", echo = TRUE)
 
 #plot3
-ggplot(df_ord_details, aes(x = ITEM_ID, y = ORDER_QTY)) + geom_point() + scale_x_discrete(breaks=df_ord_details$ITEM_ID)
-#hist(df_ord_details$ITEM_ID)
+source("../Visualizations/plot3.R", echo = TRUE)
+
 ```
 
 Below shows a sample of the data set "df_items" and a ggplot representing
@@ -62,7 +62,7 @@ the item number, pricing, and artist association.
 source("../Data/df_items.R", echo = TRUE)
 
 #plot4
-ggplot(df_items, aes(x = ITEM_ID, y = UNIT_PRICE, color = ARTIST)) + geom_point() + scale_x_discrete(breaks = df_items$ITEM_ID)
+source("../Visualizations/plot4.R", echo = TRUE)
 ```
 
 __3. The next R code merges the four data frames into one data frame that allows us to reproduce the visuals from Project 1 Requirements__
@@ -70,13 +70,13 @@ __3. The next R code merges the four data frames into one data frame that allows
 source("../Data/df_main.R", echo = TRUE)
 
 # plot1 based on Unit Price
-ggplot(df_main, aes(x = as.Date(ORDER_DATE,"%Y-%m-%d"), y = as.Date(SHIPPED_DATE,"%Y-%m-%d"), color = as.factor(UNIT_PRICE)) ) + geom_point() + facet_wrap(~CUSTOMER_STATE)
+source("../Visualizations/plot1up.R", echo = TRUE)
 
 # plot2 based on TITLE
-ggplot(df_main, aes(x = as.Date(ORDER_DATE,"%Y-%m-%d"), y = as.Date(SHIPPED_DATE,"%Y-%m-%d"), color = as.factor(TITLE)) ) + geom_point() + facet_wrap(~CUSTOMER_STATE)
+source("../Visualizations/plot1title.R", echo = TRUE)
 
 # plot3 based on ARTIST
-ggplot(df_main, aes(x = as.Date(ORDER_DATE,"%Y-%m-%d"), y = as.Date(SHIPPED_DATE,"%Y-%m-%d"), color = as.factor(ARTIST)) ) + geom_point() + facet_wrap(~CUSTOMER_STATE)
+source("../Visualizations/plot1artist.R", echo = TRUE)
 
 ```{r fig.width=7, fig.height=6}
 ```

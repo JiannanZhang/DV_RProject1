@@ -1,0 +1,1 @@
+ggplot (data = df_cust) + geom_histogram(aes(x = CUSTOMER_STATE))
