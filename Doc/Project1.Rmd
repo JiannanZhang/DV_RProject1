@@ -42,7 +42,7 @@ the customers and their associated order id number.
 source("../Data/df_orders.R", echo = TRUE)
 head(df_orders)
 # plot2 for df_orders
-ggplot(df_orders, aes(x = CUSTOMER_ID, y = ORDER_ID, color = as.factor(CUSTOMER_ID)) + geom_point()
+ggplot(df_orders, aes(x = CUSTOMER_ID, y = ORDER_ID, color = as.factor(CUSTOMER_ID))) + geom_point()
 ```
 
 Below shows a sample of the data set "df_ord_detail" and a ggplot representing the item number and the order quantity. Each point represents one order, where the y-axis showcases the quatitiy per order.
@@ -59,7 +59,7 @@ Below shows a sample of the data set "df_items" and a ggplot representing
 the item number, pricing, and artist association.
 ```{r}
 # Data Frame #4 (df4)
-source("../Data/df_main.R", echo = TRUE)
+source("../Data/df_items.R", echo = TRUE)
 
 #plot4
 ggplot(df_items, aes(x = ITEM_ID, y = UNIT_PRICE, color = ARTIST)) + geom_point() + scale_x_discrete(breaks = df_items$ITEM_ID)
@@ -67,7 +67,7 @@ ggplot(df_items, aes(x = ITEM_ID, y = UNIT_PRICE, color = ARTIST)) + geom_point(
 
 __3. The next R code merges the four data frames into one data frame that allows us to reproduce the visuals from Project 1 Requirements__
 ```{r, warning=FALSE}
-df_main <- df <- data.frame(eval(parse(text=substring(getURL(URLencode('http://129.152.144.84:5001/rest/native/?query="select * from orders o join customers c on o.customer_id = c.customer_id join order_details d on o.order_id = d.order_id join items i on d.item_id = i.item_id"'), httpheader=c(DB='jdbc:oracle:thin:@129.152.144.84:1521/PDB1.usuniversi01134.oraclecloud.internal', USER='DV_ORDERS', PASS='orcl', MODE='native_mode', MODEL='model', returnFor = 'R', returnDimensions = 'False'), verbose = TRUE), 1, 2^31-1))))
+source("../Data/df_main.R", echo = TRUE)
 
 # plot1 based on Unit Price
 ggplot(df_main, aes(x = as.Date(ORDER_DATE,"%Y-%m-%d"), y = as.Date(SHIPPED_DATE,"%Y-%m-%d"), color = as.factor(UNIT_PRICE)) ) + geom_point() + facet_wrap(~CUSTOMER_STATE)
